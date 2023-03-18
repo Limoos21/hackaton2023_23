@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазин стримеров</title>
+    <style>
+        .point{
+            border-top: 4px solid #648880;
+            padding: 40px 0 22px 0;
+            float: left;
+        }
+       ul.hr {
+        /* Обнуляем значение отступов и полей */
+        margin: 0; padding: 0;
+       }
+       ul.hr li {
+        display: inline-block; /* Строчно-блочный элемент */
+        border: 1px solid #401818; /* Рамка вокруг текста */
+        padding: 3px; /* Поля вокруг текста */
+       }
+    </style>
+</head>
+<body>
+    <p><center><h1>Магазин</h1></center></p>
+<!--    <h2>{{ points }}</h2>-->
+    <h2>{{points.points}}</h2>
+    <center><h2>{{ streamer.name }}</h2></center>
+    <center><img src="{{streamer.photo.url}}" width="200" height="180"></center>
+    <ul class="hr">
+        {% for i in product %}
+        <li>
+            <h2>{{i.nameproduct}}</h2>
+            <img src="{{i.photoproduct.url}}" width="100" height="100">
+            <h2>{{i.price}}</h2>
+            <button><a href="buy/{{i.id}}">Купить</a></button></p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

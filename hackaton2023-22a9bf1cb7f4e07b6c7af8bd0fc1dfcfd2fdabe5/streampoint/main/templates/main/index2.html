@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Главная страница</h1>
+<button><a href="lkusers/">Личный кабинет</a></button></p>
+<button><a href="streamers/">Выбрать викторину</a></button></p>
+<h1>Топ пользователей</h1>
+{% for points in raiting %}
+<h1>{{ points.user.username }}: {{ points.points }}</h1>
+{% endfor %}
+{% for j in quizz %}
+<h1>{{ j.name_quiz }}</h1>
+{% endfor %}
+</body>
+</html>

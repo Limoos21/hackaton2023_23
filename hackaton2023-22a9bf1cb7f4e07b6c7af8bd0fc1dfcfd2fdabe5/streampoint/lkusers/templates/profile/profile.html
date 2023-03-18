@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profilee</title>
+    <style>
+        .point{
+            border-top: 4px solid #648880;
+            padding: 40px 0 22px 0;
+            float: left;
+        }
+       ul.hr {
+        /* Обнуляем значение отступов и полей */
+        margin: 0; padding: 0;
+       }
+       ul.hr li {
+        display: inline-block; /* Строчно-блочный элемент */
+        border: 1px solid #000; /* Рамка вокруг текста */
+        padding: 3px; /* Поля вокруг текста */
+       }
+    </style>
+</head>
+<body>
+        <h1>Profileee_admin</h1>
+        <center><h2>{{ name.user.username }}</h2></center>
+        <center><h2>{{ name.points }}</h2></center>
+        <button><a href="buy/">Добавить Викторину</a></button></p>
+        <ul class="hr">
+        <h3>История прохождения викторин пользователями</h3>
+            {% for i in history %}
+            <li>
+                <h2>{{i.points}}:{{i.quiz.name_quiz}}</h2>
+                <h3>{{i.user.username}}</h3>
+            </li>
+            {% endfor %}
+        </ul>
+        <ul class="hr">
+        <h3>Мои пройденные викторины</h3>
+            {% for k in his_history %}
+            <li>
+                <h2>{{k.points}}:{{k.quiz.name_quiz}}</h2>
+                <h2>{{k.user.username}}</h2>
+                <button><a href="buy/{{k.quiz.id}}">Пройти еще раз</a></button></p>
+            </li>
+            {% endfor %}
+        </ul>
+        <ul class="hr">
+        <h3>Викторины пользователей</h3>
+            {% for j in all_quiz %}
+            <li>
+                <h2>{{j.name_quiz}}:{{j.quiz_descriptions}}</h2>
+                <button><a href="buy/{{j.quiz.id}}">Редектировать викторину</a></button></p>
+            </li>
+            {% endfor %}
+        </ul>
+</body>
+</html>
