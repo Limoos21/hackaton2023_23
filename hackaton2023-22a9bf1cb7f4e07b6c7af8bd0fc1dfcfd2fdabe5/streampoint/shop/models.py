@@ -30,10 +30,15 @@ class Geographic_Features(models.Model):
 class Quiz(models.Model):
     name_quiz = models.CharField("Название викторины", max_length=200)
     quiz_descriptions = models.CharField("Описание викторины", max_length=800)
-    points = models.IntegerField("Количество баллов", default=0)
+    
     published = models.BooleanField("Публичная?")
-    User = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    question1 = models.ManyToManyField("Task1", default=1)
+    question2 = models.ManyToManyField("Task2", default=1)
+    question3 = models.ManyToManyField("Task3", default=1)
+    points = models.IntegerField("Количество баллов", default=0)
 
+    
     class Meta:
         verbose_name = "Викорина"
         verbose_name_plural = "Викторины"
@@ -45,13 +50,17 @@ class Quiz(models.Model):
         return reverse('shop', kwargs={'name_quiz': self.pk})
 
 
+
+    
+
+
 class Task2(models.Model):
     task = models.CharField("Указать точку наиболее блюзкую к объекту", max_length=300)
     Features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический обЪект")
     coordinates_shir = models.IntegerField("Координаты пользователя")
     coordinates_dol = models.IntegerField("Координаты пользователя")
     max_points = models.IntegerField("максимальное количство баллов", default=0)
-    quiz = models.ForeignKey(Quiz, on_delete=models.SET_NULL, blank=True, null=True)
+    
 
 
 class Task3(models.Model):
@@ -59,8 +68,7 @@ class Task3(models.Model):
     Features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический обЪект")
     coordinates = models.CharField("Ответ пользователя", max_length=300)
     max_points = models.IntegerField("максимальное количство баллов", default=0)
-    quiz = models.ForeignKey(Quiz, on_delete=models.SET_NULL, blank=True, null=True)
-
+   
 
 class Task1(models.Model):
     task = models.CharField("Выберите правильный географический объект", max_length=300)
@@ -69,7 +77,4 @@ class Task1(models.Model):
     coordinates_shir = models.IntegerField("Координаты пользователя")
     coordinates_dol = models.IntegerField("Координаты пользователя")
     max_points = models.IntegerField("максимальное количство баллов", default=0)
-    quiz = models.ForeignKey(Quiz, on_delete=models.SET_NULL, blank=True, null=True)
-
-
-
+  

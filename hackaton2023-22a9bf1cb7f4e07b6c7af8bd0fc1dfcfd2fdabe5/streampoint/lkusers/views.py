@@ -2,27 +2,32 @@ from django.conf import settings
 from .models import History, ContribUsers
 from shop.models import Quiz
 from django.shortcuts import render
-from .forms import AddobjectsForms, AddTask3Forms, AddTask2Forms, AddTask1Forms, QuizeForms
+from .forms import AddTask3Forms, AddTask2Forms, AddTask1Forms, QuizForm, Geographic_FeaturesForms
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 
 @login_required
-def addquiz(request):
-    user_id = request.user.id
-    if request.method == "POST":
-        form = QuizeForms(request.POST, request.FILES)
+def create_quiz(request):
+    if request.method == 'POST':
+        form = QuizForm(request.POST)
         if form.is_valid():
-            addproduct = form.save(commit=False)
-            addproduct.streamer_id = id_stream
-            try:
-                form.save()
-                return redirect("myshopp")
-            except:
-                form.add_error(None, "Ошибка добавления товара")
+            quiz = form.save(commit=False)
+            quiz.user_id = request.user.id
+
+            # Вычисляем сумму баллов из связанных объектов Task
+            max_points = 0
+            for question in ['question1', 'question2', 'question3']:
+                for task in form.cleaned_data[question]:
+                    max_points += task.max_points
+
+            quiz.points = max_points
+            quiz.save()
+            form.save_m2m()  # сохраняем ManyToMany поля
+            return redirect('Profile')
     else:
-        form = AddproductForms()
-    return render(request, "profile/addproduct.html", {"form": form})
+        form = QuizForm()
+    return render(request, 'profile/Quiz.html', {'form': form})
 
 
 
@@ -30,7 +35,7 @@ def addquiz(request):
 @login_required
 def addAddobjectsForms(request):
     if request.method == "POST":
-        form = AddobjectsForms(request.POST)
+        form = Geographic_FeaturesForms(request.POST)
         if form.is_valid():
             # Создаем объект модели на основе данных формы и сохраняем его в базу данных
             addobject = form.save(commit=False)
@@ -42,7 +47,7 @@ def addAddobjectsForms(request):
             # Возвращаем страницу с формой и сообщениями об ошибках
             return render(request, "profile/addquiz.html", {"form": form})
     else:
-        form = AddobjectsForms()
+        form = Geographic_FeaturesForms()
     return render(request, "profile/addquiz.html", {"form": form})
 
 

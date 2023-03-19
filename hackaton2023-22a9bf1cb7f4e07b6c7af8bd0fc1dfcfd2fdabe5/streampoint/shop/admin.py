@@ -7,18 +7,17 @@ admin.site.register(Task3)
 admin.site.register(Task1)
 
 
+
 @admin.register(Quiz)
 class Quiz(admin.ModelAdmin):
     list_display = ("name_quiz", "quiz_descriptions", "published")
-    list_filter = ["User_id"]
+    list_filter = ["user_id"]
 
 
 @admin.register(Geographic_Features)
 class Geographic_Features(admin.ModelAdmin):
     list_display = ("coordinates_shir", "coordinates_dolg", "name")
     list_filter = ["category"]
+
     class Meta:
-        verbose_name ="Геграфические объекты"
-
-
-
+        verbose_name = "Геграфические объекты"

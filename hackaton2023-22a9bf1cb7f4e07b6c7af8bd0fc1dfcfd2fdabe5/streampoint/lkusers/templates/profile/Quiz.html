@@ -1,0 +1,9 @@
+<!-- quiz_form.html -->
+{% block content %}
+  <h1>Создание викторины</h1>
+  <form method="POST" action="{% url 'Quize' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Создать</button>
+  </form>
+{% endblock %}
