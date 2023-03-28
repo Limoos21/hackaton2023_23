@@ -1,9 +1,20 @@
-<!-- quiz_form.html -->
-{% block content %}
-  <h1>Создание викторины</h1>
-  <form method="POST" action="{% url 'Quize' %}">
+<!--&lt;!&ndash; quiz_form.html &ndash;&gt;-->
+<!--{% block content %}-->
+<!--  <h1>Создание викторины</h1>-->
+<!--  <form method="POST" action="{% url 'Quize' %}">-->
+<!--    {% csrf_token %}-->
+<!--    {{ form.as_p }}-->
+<!--    <button type="submit" class="btn btn-primary">Создать</button>-->
+<!--  </form>-->
+<!--{% endblock %}-->
+
+ <h1>Create a new Quiz</h1>
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Создать</button>
+    {{ tasks.management_form }}
+    {% for form in tasks.forms %}
+      {{ form.as_p }}
+    {% endfor %}
+    <input type="submit" value="Save">
   </form>
-{% endblock %}

@@ -1,33 +1,66 @@
 from django.conf import settings
 from .models import History, ContribUsers
-from shop.models import Quiz
+from shop.models import Quiz, Task
 from django.shortcuts import render
-from .forms import AddTask3Forms, AddTask2Forms, AddTask1Forms, QuizForm, Geographic_FeaturesForms
+from .forms import TaskForm, QuizForm, Geographic_FeaturesForms
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from django.forms import inlineformset_factory
 
 
-@login_required
-def create_quiz(request):
-    if request.method == 'POST':
-        form = QuizForm(request.POST)
-        if form.is_valid():
-            quiz = form.save(commit=False)
-            quiz.user_id = request.user.id
 
-            # Вычисляем сумму баллов из связанных объектов Task
-            max_points = 0
-            for question in ['question1', 'question2', 'question3']:
-                for task in form.cleaned_data[question]:
-                    max_points += task.max_points
+class QuizCreateView(CreateView):
+    model = Quiz
+    template_name = 'profile/Quiz.html'
+    fields = ['name_quiz', 'quiz_descriptions', 'published', 'user', 'points']
+    success_url = reverse_lazy('quiz_list')
 
-            quiz.points = max_points
-            quiz.save()
-            form.save_m2m()  # сохраняем ManyToMany поля
-            return redirect('Profile')
-    else:
-        form = QuizForm()
-    return render(request, 'profile/Quiz.html', {'form': form})
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data['tasks'] = TaskFormSet(self.request.POST)
+        else:
+            data['tasks'] = TaskFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        tasks = context['tasks']
+        form.instance.user = self.request.user
+        self.object = form.save()
+        if tasks.is_valid():
+            tasks.instance = self.object
+            tasks.save()
+        return super().form_valid(form)
+
+
+TaskFormSet = inlineformset_factory(Quiz, Task, fields=('task_type', 'features', 'coordinates_shir', 'coordinates_dol', 'coordinates', 'tryy', 'max_points'), extra=1, can_delete=True)
+
+
+
+# @login_required
+# def create_quiz(request):
+#     if request.method == 'POST':
+#         form = QuizForm(request.POST)
+#         if form.is_valid():
+#             quiz = form.save(commit=False)
+#             quiz.user_id = request.user.id
+#
+#             # Вычисляем сумму баллов из связанных объектов Task
+#             max_points = 0
+#             for question in ['question1', 'question2', 'question3']:
+#                 for task in form.cleaned_data[question]:
+#                     max_points += task.max_points
+#
+#             quiz.points = max_points
+#             quiz.save()
+#             form.save_m2m()  # сохраняем ManyToMany поля
+#             return redirect('Profile')
+#     else:
+#         form = QuizForm()
+#     return render(request, 'profile/Quiz.html', {'form': form})
 
 
 
@@ -51,6 +84,53 @@ def addAddobjectsForms(request):
     return render(request, "profile/addquiz.html", {"form": form})
 
 
+def calculate_distance(lat1, lon1, lat2, lon2):
+    # approximate radius of earth in km
+    lat1 = [0.0]
+    lon1 = [0.0]
+    lat2 = Geographic_Features.objects('coordinates_shir')
+    lon2 = Geographic_Features.objects('coordinates_dolg')
+    R = 6373.0
+    lat1 = radians(lat1)
+    lon1 = radians(lon1)
+    lat2 = radians(lat2)
+    lon2 = radians(lon2)
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    distance = R * c
+    print(distance)
+    return print(distance)
+
+
+def map_view(request):
+    # Создание объекта карты
+    my_map = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+    # Добавление маркера на карту
+    folium.Marker(
+        location=[45.5236, -122.6750],
+        popup='Portland, OR',
+        icon=folium.Icon(color='green')
+    ).add_to(my_map)
+
+    # Добавление кругового маркера на карту
+    folium.Circle(
+        location=[45.5215, -122.6261],
+        radius=500,
+        popup='Laurelhurst Park',
+        color='crimson',
+        fill=False,
+    ).add_to(my_map)
+
+    # Конвертация карты в HTML
+    my_map = my_map._repr_html_()
+
+    return my_map
 
 
 

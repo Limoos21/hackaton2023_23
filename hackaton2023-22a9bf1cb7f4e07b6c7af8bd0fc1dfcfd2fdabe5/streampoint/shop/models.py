@@ -30,12 +30,11 @@ class Geographic_Features(models.Model):
 class Quiz(models.Model):
     name_quiz = models.CharField("Название викторины", max_length=200)
     quiz_descriptions = models.CharField("Описание викторины", max_length=800)
-    
+
     published = models.BooleanField("Публичная?")
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    question1 = models.ManyToManyField("Task1", default=1)
-    question2 = models.ManyToManyField("Task2", default=1)
-    question3 = models.ManyToManyField("Task3", default=1)
+    #question = models.ForeignKey("Task", on_delete=models.CASCADE, default=1)
+
     points = models.IntegerField("Количество баллов", default=0)
 
     
@@ -54,27 +53,17 @@ class Quiz(models.Model):
     
 
 
-class Task2(models.Model):
-    task = models.CharField("Указать точку наиболее блюзкую к объекту", max_length=300)
-    Features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический обЪект")
-    coordinates_shir = models.IntegerField("Координаты пользователя")
-    coordinates_dol = models.IntegerField("Координаты пользователя")
-    max_points = models.IntegerField("максимальное количство баллов", default=0)
-    
-
-
-class Task3(models.Model):
-    task = models.CharField("Указать точку наиболее блюзкую к объекту", max_length=300)
-    Features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический обЪект")
-    coordinates = models.CharField("Ответ пользователя", max_length=300)
-    max_points = models.IntegerField("максимальное количство баллов", default=0)
-   
-
-class Task1(models.Model):
-    task = models.CharField("Выберите правильный географический объект", max_length=300)
-    Features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический обЪект")
-    tryy = models.IntegerField("Число попыток")
-    coordinates_shir = models.IntegerField("Координаты пользователя")
-    coordinates_dol = models.IntegerField("Координаты пользователя")
-    max_points = models.IntegerField("максимальное количство баллов", default=0)
-  
+class Task(models.Model):
+    TASK_CHOICES = [
+        ('1', 'Выберите правильный географический объект'),
+        ('2', 'Указать точку наиболее блюзкую к объекту'),
+        ('3', 'Указать точку наиболее блюзкую к объекту'),
+    ]
+    task_type = models.CharField("Тип задачи", max_length=1, choices=TASK_CHOICES)
+    features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический объект")
+    coordinates_shir = models.IntegerField("Координаты пользователя", null=True)
+    coordinates_dol = models.IntegerField("Координаты пользователя", null=True)
+    coordinates = models.CharField("Ответ пользователя", max_length=300, null=True)
+    tryy = models.IntegerField("Число попыток", default=0)
+    max_points = models.IntegerField("максимальное количество баллов", default=0)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)

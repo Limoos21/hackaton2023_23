@@ -1,10 +1,8 @@
 from django.contrib import admin
-from .models import Quiz, Geographic_Features, Category, Task1, Task2, Task3
+from .models import Quiz, Geographic_Features, Category, Task
 
 admin.site.register(Category)
-admin.site.register(Task2)
-admin.site.register(Task3)
-admin.site.register(Task1)
+admin.site.register(Task)
 
 
 

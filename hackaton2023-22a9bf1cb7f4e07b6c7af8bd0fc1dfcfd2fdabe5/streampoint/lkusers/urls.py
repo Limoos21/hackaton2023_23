@@ -1,12 +1,12 @@
 from django.urls import path, re_path, include
-from . import views
+from .views import show_profile, AddTaskall, addAddobjectsForms, QuizCreateView
 
 
 urlpatterns = [
-    path("", views.show_profile, name="Profile"),
-    path("add/questions", views.AddTaskall, name="Task"),
-    path("add/object", views.addAddobjectsForms, name="Objcets"),
-    path("add/quiz", views.create_quiz, name="Quize")
+    path("", show_profile, name="Profile"),
+    path("add/questions", AddTaskall, name="Task"),
+    path("add/object", addAddobjectsForms, name="Objcets"),
+    path("add/quiz", QuizCreateView.as_view(), name="Quize")
 
 ]
 
