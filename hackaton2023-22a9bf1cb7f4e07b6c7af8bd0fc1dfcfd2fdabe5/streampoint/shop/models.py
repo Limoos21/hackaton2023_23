@@ -14,8 +14,8 @@ class Category(models.Model):
 
 
 class Geographic_Features(models.Model):
-    coordinates_shir = models.CharField("Координаты широты", max_length=50)
-    coordinates_dolg = models.CharField("Координаты долготы", max_length=50)
+    coordinates_shir = models.DecimalField("Координаты широты", max_digits=50, decimal_places=5)
+    coordinates_dolg = models.DecimalField("Координаты долготы", max_digits=50, decimal_places=5)
     name = models.CharField("Имя объекта", max_length=250)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -30,11 +30,9 @@ class Geographic_Features(models.Model):
 class Quiz(models.Model):
     name_quiz = models.CharField("Название викторины", max_length=200)
     quiz_descriptions = models.CharField("Описание викторины", max_length=800)
-
     published = models.BooleanField("Публичная?")
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    #question = models.ForeignKey("Task", on_delete=models.CASCADE, default=1)
-
+    questions = models.ManyToManyField("Task", verbose_name="Вопросы", related_name="quizzes")
     points = models.IntegerField("Количество баллов", default=0)
 
     
@@ -61,9 +59,18 @@ class Task(models.Model):
     ]
     task_type = models.CharField("Тип задачи", max_length=1, choices=TASK_CHOICES)
     features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический объект")
-    coordinates_shir = models.IntegerField("Координаты пользователя", null=True)
-    coordinates_dol = models.IntegerField("Координаты пользователя", null=True)
-    coordinates = models.CharField("Ответ пользователя", max_length=300, null=True)
-    tryy = models.IntegerField("Число попыток", default=0)
+    coordinates_shir = models.DecimalField("Координаты пользователя", null=True, max_digits=50, decimal_places=5,
+                                           default=1.0)
+    coordinates_dol = models.DecimalField("Координаты пользователя", null=True, max_digits=50, decimal_places=5,
+                                          default=1.0)
+    coordinates = models.CharField("Ответ пользователя", max_length=300, null=True, blank=True)
+    tryy = models.IntegerField("Число попыток", default=1)
     max_points = models.IntegerField("максимальное количество баллов", default=0)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Вопрос"
+        verbose_name_plural = "Вопросы"
+
+
+
+

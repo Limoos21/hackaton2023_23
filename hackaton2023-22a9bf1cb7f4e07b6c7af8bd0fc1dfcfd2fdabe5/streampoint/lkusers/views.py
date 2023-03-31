@@ -1,68 +1,51 @@
 from django.conf import settings
+from django.db.models import Sum
+
 from .models import History, ContribUsers
 from shop.models import Quiz, Task
-from django.shortcuts import render
-from .forms import TaskForm, QuizForm, Geographic_FeaturesForms
+from .forms import QuizForm, Geographic_FeaturesForms
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.forms import inlineformset_factory
+from django.shortcuts import get_object_or_404
 
+
+def quiz_edit(request, pk):
+    quiz = get_object_or_404(Quiz, pk=pk)
+
+    if request.method == 'POST':
+        form = QuizForm(request.POST, instance=quiz)
+        if form.is_valid():
+            quiz = form.save()
+            quiz.points = quiz.questions.aggregate(total_points=Sum('max_points'))['total_points']
+            quiz.save()
+            return redirect('Profile')
+    else:
+        form = QuizForm(instance=quiz)
+
+    context = {
+        'form': form,
+        'quiz': quiz,
+        'question_data': [(question.task_type, question.max_points, question.features) for question in
+                          Task.objects.all()],
+    }
+
+    return render(request, 'profile/quiz_edit.html', context)
 
 
 class QuizCreateView(CreateView):
     model = Quiz
+    form_class = QuizForm
     template_name = 'profile/Quiz.html'
-    fields = ['name_quiz', 'quiz_descriptions', 'published', 'user', 'points']
-    success_url = reverse_lazy('quiz_list')
+    success_url = reverse_lazy('Profile')
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        if self.request.POST:
-            data['tasks'] = TaskFormSet(self.request.POST)
-        else:
-            data['tasks'] = TaskFormSet()
-        return data
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        tasks = context['tasks']
-        form.instance.user = self.request.user
-        self.object = form.save()
-        if tasks.is_valid():
-            tasks.instance = self.object
-            tasks.save()
-        return super().form_valid(form)
-
-
-TaskFormSet = inlineformset_factory(Quiz, Task, fields=('task_type', 'features', 'coordinates_shir', 'coordinates_dol', 'coordinates', 'tryy', 'max_points'), extra=1, can_delete=True)
-
-
-
-# @login_required
-# def create_quiz(request):
-#     if request.method == 'POST':
-#         form = QuizForm(request.POST)
-#         if form.is_valid():
-#             quiz = form.save(commit=False)
-#             quiz.user_id = request.user.id
-#
-#             # Вычисляем сумму баллов из связанных объектов Task
-#             max_points = 0
-#             for question in ['question1', 'question2', 'question3']:
-#                 for task in form.cleaned_data[question]:
-#                     max_points += task.max_points
-#
-#             quiz.points = max_points
-#             quiz.save()
-#             form.save_m2m()  # сохраняем ManyToMany поля
-#             return redirect('Profile')
-#     else:
-#         form = QuizForm()
-#     return render(request, 'profile/Quiz.html', {'form': form})
-
-
+        context = super().get_context_data(**kwargs)
+        context['question_data'] = [(question.task_type, question.max_points, question.features) for question in
+                                    Task.objects.all()]
+        return context
 
 
 @login_required
@@ -99,7 +82,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     dlon = lon2 - lon1
     dlat = lat2 - lat1
 
-    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
     distance = R * c
@@ -131,7 +114,6 @@ def map_view(request):
     my_map = my_map._repr_html_()
 
     return my_map
-
 
 
 @login_required

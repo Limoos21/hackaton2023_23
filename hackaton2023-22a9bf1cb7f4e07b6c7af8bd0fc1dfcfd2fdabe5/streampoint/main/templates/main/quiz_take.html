@@ -1,0 +1,10 @@
+{% block content %}
+  <h1>{{ quiz.name_quiz }}</h1>
+  <p>{{ quiz.quiz_descriptions }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить ответы</button>
+  </form>
+{% endblock %}

@@ -9,14 +9,14 @@
 </head>
 <body>
 <h1>Главная страница</h1>
-<button><a href="lkusers/">Личный кабинет</a></button></p>
-<button><a href="streamers/">Выбрать викторину</a></button></p>
+<button><a href="{% url 'Profile' %}">Личный кабинет</a></button></p>
 <h1>Топ пользователей</h1>
 {% for points in raiting %}
 <h1>{{ points.user.username }}: {{ points.points }}</h1>
 {% endfor %}
 {% for j in quizz %}
 <h1>{{ j.name_quiz }}</h1>
+    <button><a href="{{ j.id }}">Пройти викторину</a></button></p>
 {% endfor %}
 </body>
 </html>
