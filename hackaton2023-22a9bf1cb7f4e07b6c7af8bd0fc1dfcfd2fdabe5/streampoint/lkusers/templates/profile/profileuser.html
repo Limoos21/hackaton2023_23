@@ -31,7 +31,7 @@
             <li>
                 <h2>{{k.points}}:{{k.quiz.name_quiz}}</h2>
                 <h2>{{k.user.username}}</h2>
-                <button><a href="buy/{{k.quiz.id}}">Пройти еще раз</a></button></p>
+                <button><a href="{% url 'quiztask' pk=k.quiz.id %}">Пройти еще раз</a></button>
             </li>
             {% endfor %}
         </ul>

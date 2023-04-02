@@ -27,7 +27,7 @@ class ContribUsers(models.Model):
 
 class History(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    points = models.IntegerField()
+    points = models.IntegerField(default=0)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 
 

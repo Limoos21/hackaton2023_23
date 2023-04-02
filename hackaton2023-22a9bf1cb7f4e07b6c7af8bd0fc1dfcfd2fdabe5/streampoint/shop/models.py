@@ -35,7 +35,6 @@ class Quiz(models.Model):
     questions = models.ManyToManyField("Task", verbose_name="Вопросы", related_name="quizzes")
     points = models.IntegerField("Количество баллов", default=0)
 
-    
     class Meta:
         verbose_name = "Викорина"
         verbose_name_plural = "Викторины"
@@ -47,16 +46,13 @@ class Quiz(models.Model):
         return reverse('shop', kwargs={'name_quiz': self.pk})
 
 
-
-    
-
-
 class Task(models.Model):
     TASK_CHOICES = [
         ('1', 'Выберите правильный географический объект'),
-        ('2', 'Указать точку наиболее блюзкую к объекту'),
-        ('3', 'Указать точку наиболее блюзкую к объекту'),
+        ('2', 'Указать точку наиболее близкую к объекту'),
+        ('3', 'Напишите название географического объекта, который указан на карте'),
     ]
+    question = models.CharField("Напишите вопрос", max_length=200, null=True, blank=True)
     task_type = models.CharField("Тип задачи", max_length=1, choices=TASK_CHOICES)
     features = models.ForeignKey(Geographic_Features, on_delete=models.CASCADE, verbose_name="Географический объект")
     coordinates_shir = models.DecimalField("Координаты пользователя", null=True, max_digits=50, decimal_places=5,
@@ -70,7 +66,3 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
-
-
-
-

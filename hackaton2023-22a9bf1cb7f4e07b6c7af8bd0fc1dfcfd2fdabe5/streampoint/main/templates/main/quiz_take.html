@@ -1,10 +1,90 @@
-{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <style>
+      .map {
+        height: 200px;
+        width: 50%;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+  {% block content %}
   <h1>{{ quiz.name_quiz }}</h1>
   <p>{{ quiz.quiz_descriptions }}</p>
+    {% for task in tasks %}
+        <form method="post">
+        {% csrf_token %}
+        {{ form2.as_p }}
+        {{ form1.as_p }}
+      <h2>{{ task.question }}</h2>
+      <h3>{{ task.max_points }}</h3>
+      <div id="map{{ task.id }}" class="map"></div>
+      {% if task.task_type == '3' %}
+        <label for="coordinates{{ task.id }}">Назвение географического объекта:</label>
+        <input type="text" id="coordinates{{ task.id }}" name="coordinates{{ task.id }}">
+        <br>
+      {% else %}
+        <input type="hidden" id="coordinates_shir{{ task.id }}" name="coordinates_shir{{ task.id }}">
+        <input type="hidden" id="coordinates_dol{{ task.id }}" name="coordinates_dol{{ task.id }}">
+      {% endif %}
+      <input type="hidden" name="task_id" value="{{ task.id }}">
+      <button type="submit">Submit</button>
+      <hr>
+      <script>
+        var map{{ task.id }} = L.map('map{{ task.id }}').setView([{{ task.features.coordinates_shir }}, {{ task.features.coordinates_dolg }}], 13);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+          attribution: '',
+          maxZoom: 100,
+          noWrap: true
+        }).addTo(map{{ task.id }});
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Отправить ответы</button>
-  </form>
+        {% if task.task_type == '1' %}
+          var markers{{ task.id }} = [
+            [{{ task.features.coordinates_shir }}, {{ task.features.coordinates_dolg }}],
+            [{{ task.features.coordinates_shir }} + (Math.random() * 19), {{ task.features.coordinates_dolg}} + (Math.random() * 15)],
+            [{{ task.features.coordinates_shir }} + (Math.random() * 18), {{ task.features.coordinates_dolg}} + (Math.random() * 30)],
+            [{{ task.features.coordinates_shir }} + (Math.random() * 20), {{ task.features.coordinates_dolg}} + (Math.random() * 20)],
+            [{{ task.features.coordinates_shir }} + (Math.random() * 20), {{ task.features.coordinates_dolg}} + (Math.random() * 20)]
+          ];
+          for (var i = 0; i < markers{{ task.id }}.length; i++) {
+            var marker{{ task.id }} = L.marker(markers{{ task.id }}[i]).addTo(map{{ task.id }});
+            marker{{ task.id }}.on('click', function(e) {
+              document.getElementById('coordinates_shir{{ task.id }}').value = e.latlng.lat.toFixed(5);
+              document.getElementById('coordinates_dol{{ task.id }}').value = e.latlng.lng.toFixed(5);
+            });
+          }
+
+        {% elif task.task_type == '2' %}
+          var marker{{ task.id }} = L.marker([{{ task.features.coordinates_shir }}, {{ task.features.coordinates_dolg }}], {draggable: true}).addTo(map{{ task.id }});
+          marker{{ task.id }}.on('dragend', function(e) {
+            document.getElementById('coordinates_shir{{ task.id }}').value = e.target.getLatLng().lat.toFixed(5);
+            document.getElementById('coordinates_dol{{ task.id }}').value = e.target.getLatLng().lng.toFixed(5);
+          });
+
+          map{{ task.id }}.on('click', function(e) {
+            marker{{ task.id }}.setLatLng(e.latlng);
+            document.getElementById('coordinates_shir{{ task.id }}').value = e.latlng.lat.toFixed(5);
+            document.getElementById('coordinates_dol{{ task.id }}').value = e.latlng.lng.toFixed(5);
+          });
+        {% else %}
+          var marker{{ task.id }} = L.marker([{{ task.features.coordinates_shir }}, {{ task.features.coordinates_dolg }}]).addTo(map{{ task.id }});
+          marker{{ task.id }}.dragging.disable();
+        {% endif %}
+      </script>
+          </form>
+    {% endfor %}
+
+        <button><a href="{% url 'Profile' %}">закончить</a></button>
+
 {% endblock %}
+</body>
+</html>
