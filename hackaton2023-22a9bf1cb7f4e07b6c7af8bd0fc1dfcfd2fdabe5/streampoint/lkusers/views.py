@@ -1,14 +1,12 @@
 from django.conf import settings
 from django.db.models import Sum
-
 from .models import History, ContribUsers
 from shop.models import Quiz, Task
-from .forms import QuizForm, Geographic_FeaturesForms
+from .forms import QuizForm, Geographic_FeaturesForms, AddTask1Forms
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404
 
 
@@ -118,19 +116,15 @@ def map_view(request):
 
 @login_required
 def AddTaskall(request):
+    task = Task.objects.all()
     if request.method == "POST":
         form1 = AddTask1Forms(request.POST)
-        form2 = AddTask2Forms(request.POST)
-        form3 = AddTask3Forms(request.POST)
-        if form1.is_valid() and form2.is_valid() and form3.is_valid():
-            form3.save()
+        if form1.is_valid():
             form1.save()
-            form2.save()
+        return redirect(request.path_info)
     else:
         form1 = AddTask1Forms()
-        form2 = AddTask2Forms()
-        form3 = AddTask3Forms()
-    return render(request, "profile/addtaskall.html", {"form1": form1, "form2": form2, "form3": form3})
+    return render(request, "profile/addtaskall.html", {"form1": form1, "task": task})
 
 
 def show_profile(request):

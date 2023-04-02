@@ -5,22 +5,19 @@
     <title>Addtaskall</title>
 </head>
 <body>
+    <h2>Существующие вопросы</h2>
+    {% for task in task %}
+        <p>{{ task.question }}</p>
+        <p>{{ task.max_points }}</p>
+        <p>{{ task.task_type }}</p>
+        <p>{{ task.features }}</p>
+        <hr>
+    {% endfor %}
     <form method="POST">
     {% csrf_token %}
     {{ form1.as_p }}
-    <button type="submit">Create questions</button>
+    <button type="submit">добавить вопрос</button>
   </form>
-    <hr>
-    <form method="POST">
-    {% csrf_token %}
-    {{ form2.as_p }}
-    <button type="submit">Create questions</button>
-  </form>
-    <hr>
-<form method="POST">
-    {% csrf_token %}
-    {{ form3.as_p }}
-    <button type="submit">Create questions</button>
-  </form>
+    <button><a href="{% url 'Profile' %}">вернутся в профиль</a></button></p>
 </body>
 </html>

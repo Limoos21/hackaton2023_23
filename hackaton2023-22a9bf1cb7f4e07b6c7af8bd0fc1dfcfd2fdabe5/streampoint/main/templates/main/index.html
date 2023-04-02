@@ -17,7 +17,7 @@
 {% endfor %}
 {% for j in public %}
 <h1>{{ j.name_quiz }}</h1>
-<button><a href="{{ j.id }}">Пройти викторину</a></button></p>
+<button><a href="{% url 'quiztask' pk=j.id %}">Пройти викторину</a></button></p>
 {% endfor %}
 </body>
 </html>
