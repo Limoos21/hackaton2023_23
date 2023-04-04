@@ -14,7 +14,7 @@ def quiz_edit(request, pk):
     quiz = get_object_or_404(Quiz, pk=pk)
 
     if request.method == 'POST':
-        form = QuizForm(request.POST, instance=quiz)
+        form = QuizForm(request.POST, request.FILES, instance=quiz)
         if form.is_valid():
             quiz = form.save()
             quiz.points = quiz.questions.aggregate(total_points=Sum('max_points'))['total_points']

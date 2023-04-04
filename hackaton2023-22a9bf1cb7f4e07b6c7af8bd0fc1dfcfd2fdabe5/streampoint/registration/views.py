@@ -13,11 +13,11 @@ def reg_user(request):
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login/')
+            return redirect('Login')
     else:
         form = UserRegistrationForm()
     context = {'form': form}
-    return render (request, 'registration/regist.html', context)
+    return render(request, 'registration/regist.html', context)
 def login(requst):
     if requst.method == 'POST':
         form = UserLoginForm(data=requst.POST)

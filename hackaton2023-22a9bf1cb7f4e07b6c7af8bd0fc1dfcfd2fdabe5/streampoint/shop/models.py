@@ -28,6 +28,8 @@ class Geographic_Features(models.Model):
 
 
 class Quiz(models.Model):
+    photo_quiz = models.ImageField("Картинка викторины",  upload_to="photoquiz/", help_text="фото викторины",
+                                   null=True, blank=True)
     name_quiz = models.CharField("Название викторины", max_length=200)
     quiz_descriptions = models.CharField("Описание викторины", max_length=800)
     published = models.BooleanField("Публичная?")

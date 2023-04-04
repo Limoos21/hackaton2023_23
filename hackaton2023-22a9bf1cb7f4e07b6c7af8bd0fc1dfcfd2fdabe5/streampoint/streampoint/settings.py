@@ -33,23 +33,7 @@ ALLOWED_HOSTS = ["*"] #изменить на домен расширения
 
 # Application definition
 
-INSTALLED_APPS = [
-    "main",
-    "registration",
-    "shop",
-    "streamers",
-    "lkusers",
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'corsheaders',
-    'djoser'
-]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -151,6 +135,27 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+INSTALLED_APPS = [
+    "main",
+    "registration",
+    "shop",
+    "streamers",
+    "lkusers",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    # 'django.contrib.auth.urls',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'djoser'
+
+]
+
+
 
 STATIC_URL = 'static/'
 

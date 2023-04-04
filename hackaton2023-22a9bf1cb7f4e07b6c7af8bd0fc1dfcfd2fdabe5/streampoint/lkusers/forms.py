@@ -18,7 +18,7 @@ class QuizForm(forms.ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name_quiz', 'quiz_descriptions', 'published', 'questions']
+        fields = ['name_quiz', 'quiz_descriptions', 'published', 'questions', 'photo_quiz']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

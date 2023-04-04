@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from lkusers.models import ContribUsers, History
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -47,22 +48,26 @@ def show_quiz(request):
         return render(request, "main/index2.html", content2)
 
 
+
+# @csrf_exempt
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     taskss = Task.objects.filter(quizzes=pk)
     user = ContribUsers.objects.get(user_id=request.user.id)
     points_his = 0
     if request.method == "POST":
+        data = request.POST.dict()
+        print(data)
         form = ContribUserForm(request.POST, instance=user)
         try:
             quizzz = History.objects.get(quiz_id=pk)
             form2 = HistoryForm(request.POST, instance=quizzz)
         except:
             form2 = HistoryForm(request.POST)
-        task_id = request.POST.get('task_id')
-        coordinates_shir = request.POST.get('coordinates_shir{}'.format(task_id))
-        coordinates_dol = request.POST.get('coordinates_dol{}'.format(task_id))
-        coordinates = request.POST.get('coordinates{}'.format(task_id))
+        task_id = data['task_id']
+        coordinates_shir = data.get('coordinates_shir{}'.format(task_id))
+        coordinates_dol = data.get('coordinates_dol{}'.format(task_id))
+        coordinates = data.get('coordinates{}'.format(task_id))
 
         if form.is_valid() and form2.is_valid():
             tasks = Task.objects.get(id=task_id)
@@ -92,10 +97,11 @@ def quiz_view(request, pk):
 
             points.save()
             history.save()
-            return redirect(request.path_info)
+
+            return HttpResponse(status=204)
 
         else:
-            # Return the page with the form and error messages
+
             return render(request, "main/quiz_take.html", {"quiz": quiz, "tasks": taskss, "form1": form,
                                                            "form2": form2})
     else:
