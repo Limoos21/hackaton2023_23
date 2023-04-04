@@ -68,3 +68,8 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
+
+    def __str__(self):
+        return self.question
+
+

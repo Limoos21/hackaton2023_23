@@ -32,18 +32,36 @@ def quiz_edit(request, pk):
 
     return render(request, 'profile/quiz_edit.html', context)
 
-
 class QuizCreateView(CreateView):
     model = Quiz
     form_class = QuizForm
     template_name = 'profile/Quiz.html'
     success_url = reverse_lazy('Profile')
 
+    def form_valid(self, form):
+        quiz = form.save(commit=False)
+        quiz.user = self.request.user
+        quiz.extra_info = 'Some additional info'
+        quiz.photo_quiz = self.request.FILES.get('photo_quiz')
+        quiz.save()
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['question_data'] = [(question.task_type, question.max_points, question.features) for question in
                                     Task.objects.all()]
         return context
+# class QuizCreateView(CreateView):
+#     model = Quiz
+#     form_class = QuizForm
+#     template_name = 'profile/Quiz.html'
+#     success_url = reverse_lazy('Profile')
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['question_data'] = [(question.task_type, question.max_points, question.features) for question in
+#                                     Task.objects.all()]
+#         return context
 
 
 @login_required
