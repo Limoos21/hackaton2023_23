@@ -177,3 +177,21 @@ def show_profile(request):
             his_history = []
         return render(request, "profile/profileuser.html", {"name": name, "his_quiz": his_quiz,
                                                             "his_history": his_history})
+
+
+def myvics(request):
+    try:
+        his_quiz = Quiz.objects.filter(user_id=request.user.id)
+    except:
+        his_quiz = []
+
+    return render(request, 'profile/myvics.html', {"his_quiz": his_quiz})
+
+
+def users_vics(request):
+    try:
+        his_quiz = Quiz.objects.all()
+    except:
+        his_quiz = []
+
+    return render(request, 'profile/users_vics.html', {"all_quiz": his_quiz})

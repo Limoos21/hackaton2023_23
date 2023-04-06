@@ -1,46 +1,49 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <style>
-      .map {
-        height: 200px;
-        width: 50%;
-      }
-      .hidden {
-        display: none;
-      }
-    </style>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="{% static 'lkusers/css/ques.css' %}">
+
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
+
 <body>
   {% block content %}
-  <h1>{{ quiz.name_quiz }}</h1>
-  <p>{{ quiz.quiz_descriptions }}</p>
+  <div class="user-inner map-inner">
+    <h1 class="myvics-title ">{{ quiz.name_quiz }}</h1>
+    <p class="quiz-desc">{{ quiz.quiz_descriptions }}</p>
     {% for task in tasks %}
-        <form id="form{{ task.id }}" method="post">
-        {% csrf_token %}
-        {{ form2.as_p }}
-        {{ form1.as_p }}
+    <form id="form{{ task.id }}" method="post">
+      {% csrf_token %}
+      {{ form2.as_p }}
+      {{ form1.as_p }}
       <h2>{{ task.question }}</h2>
       <h3>{{ task.max_points }}</h3>
       <div id="map{{ task.id }}" class="map"></div>
       {% if task.task_type == '3' %}
+      <div class="geo-name">
         <label for="coordinates{{ task.id }}">Назвение географического объекта:</label>
-        <input type="text" id="coordinates{{ task.id }}" name="coordinates{{ task.id }}">
-        <br>
+        <input type="text" id="coordinates{{ task.id }}" name="coordinates{{ task.id }}" class="geo-inp">
+      </div>
+      <br>
       {% else %}
-        <input type="hidden" id="coordinates_shir{{ task.id }}" name="coordinates_shir{{ task.id }}">
-        <input type="hidden" id="coordinates_dol{{ task.id }}" name="coordinates_dol{{ task.id }}">
+      <input type="hidden" id="coordinates_shir{{ task.id }}" name="coordinates_shir{{ task.id }}">
+      <input type="hidden" id="coordinates_dol{{ task.id }}" name="coordinates_dol{{ task.id }}">
       {% endif %}
       <input type="hidden" name="task_id" value="{{ task.id }}">
-      <button type="submit" id="submitButton{{ task.id }}">Submit</button>
+      <button type="submit" id="submitButton{{ task.id }}" class="quiz-submit">Submit</button>
       <hr>
+
       <script>
         var map{{ task.id }} = L.map('map{{ task.id }}').setView([{{ task.features.coordinates_shir }}, {{ task.features.coordinates_dolg }}], 13);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
@@ -82,51 +85,53 @@
           marker{{ task.id }}.dragging.disable();
         {% endif %}
       </script>
-          </form>
-        <script>
-            const forms = document.querySelectorAll('[id^="form"]');
-            forms.forEach(form => {
-              const submitButton = form.querySelector('.submitButton');
-              submitButton.addEventListener('click', async (event) => {
-                event.preventDefault();
-                const formData = new FormData(form);
-                const currentUrl = "{% url 'quiztask' pk=quiz.id %}";
-                const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    </form>
+    <script>
+      const forms = document.querySelectorAll('[id^="form"]');
+      forms.forEach(form => {
+        const submitButton = form.querySelector('.submitButton');
+        submitButton.addEventListener('click', async (event) => {
+          event.preventDefault();
+          const formData = new FormData(form);
+          const currentUrl = "{% url 'quiztask' pk=quiz.id %}";
+          const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
-                try {
-                  fetch(currentUrl, {
-                      method: 'POST',
-                      body: formData,
-                      headers: {
-                        'X-CSRFToken': csrfToken
-                      }
-                    }).then(response => {
-                      if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                      }
-                    }).catch(error => {
-                      console.error('There was an error:', error);
-                    });
-                  if (response.ok) {
-                    const data = await response.json();
-                    // обновляем только текущую форму
-                    form.innerHTML = data.html_form;
-                  } else {
-                    console.error('Response error:', response);
-                  }
-                } catch (error) {
-                  console.error('Fetch error:', error);
-                }
-                return false;
-              });
+          try {
+            fetch(currentUrl, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            }).then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+            }).catch(error => {
+              console.error('There was an error:', error);
             });
+            if (response.ok) {
+              const data = await response.json();
+              // обновляем только текущую форму
+              form.innerHTML = data.html_form;
+            } else {
+              console.error('Response error:', response);
+            }
+          } catch (error) {
+            console.error('Fetch error:', error);
+          }
+          return false;
+        });
+      });
 
 
-            </script>
+    </script>
     {% endfor %}
+    <a href="{% url 'Profile' %}" class="end">закончить</a>
+  </div>
 
-        <button><a href="{% url 'Profile' %}">закончить</a></button>
 
-{% endblock %}
+  {% endblock %}
 </body>
+
 </html>

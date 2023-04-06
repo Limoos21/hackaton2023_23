@@ -18,7 +18,7 @@
 {% for j in public %}
 <h1>{{ j.name_quiz }}</h1>
     <h2>{{ j.quiz_descriptions }}</h2>
-<img src="{{j.photo_quiz.url}}" width="200" height="180">
+
 <button><a href="{% url 'quiztask' pk=j.id %}">Пройти викторину</a></button></p>
 {% endfor %}
 </body>

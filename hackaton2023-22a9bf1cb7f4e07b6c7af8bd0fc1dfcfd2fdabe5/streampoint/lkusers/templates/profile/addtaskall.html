@@ -1,23 +1,47 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Addtaskall</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'lkusers/css/ques.css' %}">
 </head>
+
 <body>
-    <h2>Существующие вопросы</h2>
-    {% for task in task %}
-        <p>{{ task.question }}</p>
-        <p>{{ task.max_points }}</p>
-        <p>{{ task.task_type }}</p>
-        <p>{{ task.features }}</p>
-        <hr>
-    {% endfor %}
-    <form method="POST">
-    {% csrf_token %}
-    {{ form1.as_p }}
-    <button type="submit">добавить вопрос</button>
-  </form>
-    <button><a href="{% url 'Profile' %}">вернутся в профиль</a></button></p>
+    <h2 class="now_ques_title">Существующие вопросы</h2>
+    <div class="content">
+        <div class="user-inner">
+            {% for task in task %}
+            <div class="ques-center">
+                <p class="ques-style">Название: {{ task.question }}</p>
+                <p class="ques-style">Максимальное количество баллов: {{ task.max_points }}</p>
+                <p class="ques-style">Точка на карте: {{ task.features }}</p>
+                <hr>
+            </div>
+            {% endfor %}
+            <form method="POST" class="user-inner">
+                {% csrf_token %}
+                <div class="types-of">
+                    <label for="" class="type-title">Типы задач</label>
+                    {{ form1.task_type}}
+                </div>
+               
+                <label for="">Точка на карте</label>
+                {{ form1.features }}
+
+                <label for="" class="name_quiz">Вопрос</label>
+                {{ form1.question }}
+
+                <label for="" class="type-title">Максимальное количество баллов</label>
+                {{ form1.max_points }}
+                <button type="submit" class="create">добавить вопрос</button>
+            </form>
+            <button class="create profile"><a href="{% url 'Profile' %}">вернутся в профиль</a></button></p>
+         
+        </div>
+    </div>
 </body>
+
 </html>

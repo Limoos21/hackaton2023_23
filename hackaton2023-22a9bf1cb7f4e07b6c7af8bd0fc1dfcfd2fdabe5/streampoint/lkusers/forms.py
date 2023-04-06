@@ -5,8 +5,8 @@ from shop.models import Geographic_Features, Task, Quiz
 
 class QuizForm(forms.ModelForm):
     class QuestionWidget(forms.CheckboxSelectMultiple):
-        def __init__(self, attrs=None, *args, **kwargs):
-            super().__init__(attrs, *args, **kwargs)
+        def init(self, attrs=None, *args, **kwargs):
+            super().init(attrs, args, kwargs)
 
         def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
             option = super().create_option(name, value, label, selected, index, subindex=subindex, attrs=attrs)
@@ -14,14 +14,21 @@ class QuizForm(forms.ModelForm):
             option['label'] = f'{task.features.name} ({task.get_task_type_display()}) - {task.max_points} points'
             return option
 
-    questions = forms.ModelMultipleChoiceField(queryset=Task.objects.all(), widget=QuestionWidget())
+    # добавить классы CSS к каждому полю формы
+    name_quiz = forms.CharField(widget=forms.TextInput(attrs={'class': 'name-quiz'}))
+    quiz_descriptions = forms.CharField(widget=forms.Textarea(attrs={'class': 'desc-text'}))
+    published = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'quiz-published', 'class': 'quiz-field'}))
+    questions = forms.ModelMultipleChoiceField(queryset=Task.objects.all(), widget=QuestionWidget(attrs={'class': 'quiz-que'}))
+    photo_quiz = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class': 'quiz-photo'}))
 
     class Meta:
         model = Quiz
+       
         fields = ['name_quiz', 'quiz_descriptions', 'published', 'questions', 'photo_quiz']
+        label = {'quiz_descriptions': 'Описание'}
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def init(self, *args, kwargs):
+        super().init(*args, **kwargs)
         if self.instance.pk:
             self.fields['questions'].initial = self.instance.questions.all()
 
@@ -35,10 +42,11 @@ class QuizForm(forms.ModelForm):
         return quiz
 
 
-
-
-
 class AddTask1Forms(forms.ModelForm):
+    task_type = forms.ChoiceField(choices=Task.TASK_CHOICES, widget=forms.RadioSelect(attrs={'class': 'type'}))
+    features = forms.ModelChoiceField(queryset=Geographic_Features.objects.all(), widget=forms.Select(attrs={'class': 'point'}))
+    question = forms.CharField(widget=forms.Textarea(attrs={'class': 'desc-text', 'rows': 3}))
+    max_points = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'max-ball'}))
     class Meta:
         model = Task
         fields = ("task_type", "features", "question", "max_points")

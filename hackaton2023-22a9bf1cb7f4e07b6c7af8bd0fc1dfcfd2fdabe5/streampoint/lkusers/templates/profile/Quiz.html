@@ -1,9 +1,70 @@
-{% block content %}
-  <h1>Create Quiz</h1>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
+<!-- {% load static %}
 
-    <input type="submit" value="Create Quiz">
-  </form>
-{% endblock %}
+{% block content %}
+<h1>Create Quiz</h1>
+<form method="post" enctype="multipart/form-data">
+
+  {{ form.as_p }}
+
+  <input type="submit" value="Create Quiz">
+</form>
+{% endblock %} -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.cdnfonts.com/css/furore" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'lkusers/css/style.css' %}">
+  <title>Document</title>
+</head>
+
+<body>
+  <header class="header">
+    <div class="nav-icon"></div>
+    <div class="logo-icon"></div>
+    <div class="user-icon">
+      <a href="reg.html" class="user-icon-link">
+
+      </a>
+    </div>
+  </header>
+  <main class="main">
+
+    
+    <div class="container">
+      <form class="ques" method="post" enctype="multipart/form-data">
+        <button class="btn-create" type="submit">СОЗДАТЬ ВИКТОРИНУ</button>
+
+        {% csrf_token %}
+        <div class="q1">
+          <label for="">Название</label>
+          {{form.name_quiz}}
+          <label for="">Описание</label>
+          {{form.quiz_descriptions}}
+          <label for="" class="quiz_pub"><center>Публичная {{form.published}}</center> </label>
+          <label for="">Фото {{form.photo_quiz}}</label>
+          <label for="" class="quiz-name-label">Вопросы</label>
+          {{form.questions}}
+        </div>
+      </form>
+    </div>
+
+    <!-- <div class="content">
+      <div class="man"></div>
+      <div class="glob">
+        <div class="mark mark-1">sfgdfggdfg</div>
+        <div class="mark mark-2"></div>
+        <div class="mark mark-3"></div>
+        <div class="mark mark-4"></div>
+      </div>
+    </div> -->
+
+  </main>
+</body>
+
+</html>
