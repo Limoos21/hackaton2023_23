@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'lkusers/css/style.css' %}">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <h3>Викторины пользователей</h3>
+    {% for j in all_quiz %}
+    <li>
+        <h2>{{j.name_quiz}}:{{j.quiz_descriptions}}</h2>
+        <button><a href="add/edit/{{j.id}}">Редектировать викторину</a></button></p>
+    </li>
+    {% endfor %}
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.cdnfonts.com/css/furore" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>Document</title>
+    </head> -->
+
+    <body>
+        <header class="header">
+            <div class="nav-icon"></div>
+            <div class="logo-icon"></div>
+            <div class="user-icon">
+                <a href="reg.html" class="user-icon-link">
+
+                </a>
+            </div>
+        </header>
+        <main class="main">
+            <div class="content">
+
+                <div class="v">
+                    <h1 class="myvics-title">ВИКТОРИНЫ</h1>
+                    <div class="vics-items v2">
+                        {% for j in all_quiz %}
+                        <div class="vic-item">
+                            <li>
+                                <div class="vic-title">{{j.name_quiz}}:{{j.quiz_descriptions}}</div>
+                              <a href="add/edit/{{j.id}}">Редектировать викторину</a>
+                            </li>
+                            <div class="vic-img">
+                                <img src="img/freedom.png" alt="">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="man m2"></div>
+
+            </div>
+        </main>
+    </body>
+
+    </html>
+</body>
+
+</html>
