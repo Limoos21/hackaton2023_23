@@ -6,13 +6,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Addtaskall</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'lkusers/css/header.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'lkusers/css/ques.css' %}">
 </head>
 
 <body>
+    <header class="header task-header">
+        <div>
+          <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
+        </div>
+        <div>
+          <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
+        </div>
+        <div>
+          <a href="{% url 'Profile' %}" class="user-icon-link">
+            <img src="{% static 'main/imgs/user.png' %}" alt="" class="user-icon">
+          </a>
+        </div>
+    
+      </header>
+
     <h2 class="now_ques_title">Существующие вопросы</h2>
-    <div class="content">
-        <div class="user-inner">
+    <div class="content addtask-main">
+        <div class="user-inner user-inner-height">
             {% for task in task %}
             <div class="ques-center">
                 <p class="ques-style">Название: {{ task.question }}</p>
@@ -21,7 +37,7 @@
                 <hr>
             </div>
             {% endfor %}
-            <form method="POST" class="user-inner">
+            <form method="POST" class="user-inner form-inner-quiz">
                 {% csrf_token %}
                 <div class="types-of">
                     <label for="" class="type-title">Типы задач</label>
@@ -37,8 +53,9 @@
                 <label for="" class="type-title">Максимальное количество баллов</label>
                 {{ form1.max_points }}
                 <button type="submit" class="create">добавить вопрос</button>
+                <button class="create profile"><a href="{% url 'Profile' %}">вернутся в профиль</a></button></p>
             </form>
-            <button class="create profile"><a href="{% url 'Profile' %}">вернутся в профиль</a></button></p>
+           
          
         </div>
     </div>

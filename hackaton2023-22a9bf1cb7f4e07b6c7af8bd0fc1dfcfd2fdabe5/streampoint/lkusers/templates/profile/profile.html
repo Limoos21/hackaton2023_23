@@ -88,12 +88,13 @@
 
                 <div class="victorins">
                     <div class="vics-title">
-                        <h1>История прохождения викторин пользователями</h1>
+                        <h1>История викторин</h1>
                     </div>
                     {% for i in history %}
-                    <li>
-                        <h2>{{i.points}}:{{i.quiz.name_quiz}}</h2>
-                        <h3>{{i.user.username}}</h3>
+                    <li class="vic-item">
+                        <h3>Пользователь - {{i.user.username}}</h3>
+                        <h2>{{i.quiz.name_quiz}}: {{i.points}} баллов</h2>
+                        
                     </li>
                     {% endfor %}
 

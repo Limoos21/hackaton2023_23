@@ -1,24 +1,80 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link type="text/css" rel="stylesheet" href="{% static 'main/css/base.css' %}">
     <title>Document</title>
 </head>
-<body>
-<h1>Главная страница</h1>
-<button><a href="{% url 'Profile' %}">Личный кабинет</a></button></p>
-<h1>Топ пользователей</h1>
-{% for points in raiting %}
-<h1>{{ points.user.username }}: {{ points.points }}</h1>
-{% endfor %}
-{% for j in quizz %}
-<h1>{{ j.name_quiz }}</h1>
-    <h2>{{ j.quiz_descriptions }}</h2>
 
-    <button><a href="{% url 'quiztask' pk=j.id %}">Пройти викторину</a></button></p>
-{% endfor %}
+<body>
+    <header class="header">
+        <div>
+            <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
+        </div>
+        <div>
+            <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
+        </div>
+        <div>
+            <a href="{% url 'Profile' %}" class="user-icon-link">
+                <img src="{% static 'main/imgs/user.png' %}" alt="" class="user-icon">
+            </a>
+        </div>
+
+    </header>
+    <div class="main">
+
+        <!-- <h1>Топ пользователей</h1>
+        {% for points in raiting %}
+        <h1>{{ points.user.username }}: {{ points.points }}</h1>
+        {% endfor %} -->
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Выбрать викторину</button>
+            <div id="myDropdown" class="dropdown-content">
+                {% for j in quizz %}
+                <a href="{% url 'quiztask' pk=j.id %}">
+                    <h2>{{ j.name_quiz }}</h2>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    <div class="content">
+        <div>
+            <img src="{% static 'main/imgs/man.png' %}" alt="" class="man-icon">
+        </div>
+        <div>
+            <img src="{% static 'main/imgs/glob.png' %}" alt="" class="glob-icon">
+        </div>
+    </div>
+
+
 </body>
+
+<script>
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+
 </html>

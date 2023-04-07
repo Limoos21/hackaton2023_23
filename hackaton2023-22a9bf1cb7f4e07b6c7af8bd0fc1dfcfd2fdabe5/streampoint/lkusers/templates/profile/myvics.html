@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'lkusers/css/header.css' %}">
     <link rel="stylesheet" href="{% static 'lkusers/css/style.css' %}">
     <title>Document</title>
 </head>
@@ -33,15 +34,20 @@
 
     <body>
         <header class="header">
-            <div class="nav-icon"></div>
-            <div class="logo-icon"></div>
-            <div class="user-icon">
-                <a href="reg.html" class="user-icon-link">
-
+            <div>
+                <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
+            </div>
+            <div>
+                <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
+            </div>
+            <div>
+                <a href="{% url 'Profile' %}" class="user-icon-link">
+                    <img src="{% static 'main/imgs/user.png' %}" alt="" class="user-icon">
                 </a>
             </div>
+    
         </header>
-        <main class="main">
+        <main class="main user-profile-vics">
             <div class="content">
 
                 <div class="v">
@@ -58,10 +64,16 @@
                     </div>
                 </div>
 
-                <div class="man m2"></div>
+              
 
             </div>
+            <div class="man-myvics">
+                <div>
+                    <img src="{% static 'main/imgs/man.png' %}" alt="" class="man-vics-icon">
+                </div>
+            </div>
         </main>
+       
     </body>
 
 </html>

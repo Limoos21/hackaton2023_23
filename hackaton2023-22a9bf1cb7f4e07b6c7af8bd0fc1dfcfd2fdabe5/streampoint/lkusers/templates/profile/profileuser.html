@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Profilee</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'lkusers/css/header.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'lkusers/css/style.css' %}">
 
 </head>
@@ -37,15 +38,20 @@
 
 
     <header class="header">
-        <div class="nav-icon"></div>
-        <div class="logo-icon"></div>
-        <div class="user-icon">
-            <a href="reg.html" class="user-icon-link">
-
+        <div>
+            <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
+        </div>
+        <div>
+            <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
+        </div>
+        <div>
+            <a href="{% url 'Profile' %}" class="user-icon-link">
+                <img src="{% static 'main/imgs/user.png' %}" alt="" class="user-icon">
             </a>
         </div>
+
     </header>
-    <main class="main">
+    <main class="main profile-user-main">
         <div class="content">
             <div class="user-inner">
                 <div class="user-stat">
@@ -85,8 +91,13 @@
                     <div class="vics-items">
                         <div class="vic-item">
                             <!-- <div class="vic-title">США</div> -->
-                            <a class="vic-title" href="{% url 'quiztask' pk=k.quiz.id %}">{{k.quiz.name_quiz}}</a>
-                            <div class="quiz-points">{{k.points}}:</div>
+                            <div class="img-and-item">
+                                <a class="vic-title" href="{% url 'quiztask' pk=k.quiz.id %}">Викторина -
+                                    {{k.quiz.name_quiz}}</a>
+                                <img src="{% static 'lkusers/imgs/Screenshot_1.png' %}" alt="" class="vic-item-img">
+                            </div>
+                            <div class="quiz-points">Баллы: {{k.points}}:</div>
+
                         </div>
                     </div>
                     {% endfor %}

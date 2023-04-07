@@ -19,23 +19,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.cdnfonts.com/css/furore" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="{% static 'lkusers/css/header.css' %}">
   <link rel="stylesheet" href="{% static 'lkusers/css/style.css' %}">
   <title>Document</title>
 </head>
 
 <body>
   <header class="header">
-    <div class="nav-icon"></div>
-    <div class="logo-icon"></div>
-    <div class="user-icon">
-      <a href="reg.html" class="user-icon-link">
-
+    <div>
+      <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
+    </div>
+    <div>
+      <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
+    </div>
+    <div>
+      <a href="{% url 'Profile' %}" class="user-icon-link">
+        <img src="{% static 'main/imgs/user.png' %}" alt="" class="user-icon">
       </a>
     </div>
-  </header>
-  <main class="main">
 
-    
+  </header>
+  <main class="main quiz-main">
+
+
     <div class="container">
       <form class="ques" method="post" enctype="multipart/form-data">
         <button class="btn-create" type="submit">СОЗДАТЬ ВИКТОРИНУ</button>
@@ -46,7 +52,9 @@
           {{form.name_quiz}}
           <label for="">Описание</label>
           {{form.quiz_descriptions}}
-          <label for="" class="quiz_pub"><center>Публичная {{form.published}}</center> </label>
+          <label for="" class="quiz_pub">
+            <center>Публичная {{form.published}}</center>
+          </label>
           <label for="">Фото {{form.photo_quiz}}</label>
           <label for="" class="quiz-name-label">Вопросы</label>
           {{form.questions}}

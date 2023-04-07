@@ -1,6 +1,6 @@
 from django import forms
 from django.db.models import Sum
-from shop.models import Geographic_Features, Task, Quiz
+from shop.models import Geographic_Features, Task, Quiz, Category
 
 
 class QuizForm(forms.ModelForm):
@@ -56,6 +56,9 @@ class AddTask1Forms(forms.ModelForm):
 
 
 class Geographic_FeaturesForms(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'name-quiz'}))
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),  widget=forms.Select(attrs={'class': 'point'}))
+                                     
     class Meta:
         model = Geographic_Features
         fields = ["category", "name"]

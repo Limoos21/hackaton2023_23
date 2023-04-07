@@ -1,59 +1,81 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{% static 'lkusers/css/map.css' %}">
+    <link rel="stylesheet" href="{% static 'lkusers/css/header.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
-<body>
-<h1>Create Quiz</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" id="coordinates_shir" name="coordinates_shir">
-    <input type="hidden" id="coordinates_dolg" name="coordinates_dolg">
-    <button type="submit">Create Quiz</button>
-</form>
 
-{% block content %}
-    <div id="mapid" style="height: 500px;"></div>
-{% endblock %}
+<body class="addquiz">
+    <header class="header addquiz-header">
+        <div>
+            <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
+        </div>
+        <div>
+            <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
+        </div>
+        <div>
+            <a href="{% url 'Profile' %}" class="user-icon-link">
+                <img src="{% static 'main/imgs/user.png' %}" alt="" class="user-icon">
+            </a>
+        </div>
 
-<script>
-    var map = L.map('mapid').setView([51.505, -0.09], 13);
+    </header>
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-    }).addTo(map);
+    <div class="content addquiz-content">
+        <h1 class="myvics-title">Поставить точку</h1>
+        <form method="POST" class="coord-center">
+            {% csrf_token %}
+            <div class="coord-quiz">
+                <label for="" class="coord-quiz-title">Название</label>
+                {{ form.name }}
+                <label for="" class="coord-quiz-title">Категория</label>
+                {{ form.category }}
+            </div>
+            <input type="hidden" id="coordinates_shir" name="coordinates_shir">
+            <input type="hidden" id="coordinates_dolg" name="coordinates_dolg">
+            <button type="submit"  class="coord-quiz-create">Create Quiz</button>
+        </form>
+    </div>
+    
 
-    var marker;
+    {% block content %}
+    <div id="mapid" style="height: 500px;" class="map"></div>
+    
+    {% endblock %}
+    
 
-    function onMapClick(e) {
-        if (marker) {
-            map.removeLayer(marker);
+    <script>
+        var map = L.map('mapid').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+        }).addTo(map);
+
+        var marker;
+
+        function onMapClick(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+            console.log(e.latlng);
+
+            document.getElementById("coordinates_shir").value = e.latlng.lat;
+            document.getElementById("coordinates_dolg").value = e.latlng.lng;
         }
-        marker = L.marker(e.latlng).addTo(map);
-        console.log(e.latlng);
 
-        document.getElementById("coordinates_shir").value = e.latlng.lat;
-        document.getElementById("coordinates_dolg").value = e.latlng.lng;
-    }
-
-    map.on('click', onMapClick);
-</script>
+        map.on('click', onMapClick);
+    </script>
 
 </body>
+
 </html>
-
-
-
-
-
-
-
-
