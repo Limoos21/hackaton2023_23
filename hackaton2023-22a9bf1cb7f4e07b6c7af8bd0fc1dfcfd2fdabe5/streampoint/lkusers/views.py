@@ -106,30 +106,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     return print(distance)
 
 
-def map_view(request):
-    # Создание объекта карты
-    my_map = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
 
-    # Добавление маркера на карту
-    folium.Marker(
-        location=[45.5236, -122.6750],
-        popup='Portland, OR',
-        icon=folium.Icon(color='green')
-    ).add_to(my_map)
-
-    # Добавление кругового маркера на карту
-    folium.Circle(
-        location=[45.5215, -122.6261],
-        radius=500,
-        popup='Laurelhurst Park',
-        color='crimson',
-        fill=False,
-    ).add_to(my_map)
-
-    # Конвертация карты в HTML
-    my_map = my_map._repr_html_()
-
-    return my_map
 
 
 @login_required

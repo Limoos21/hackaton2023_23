@@ -36,7 +36,7 @@ def show_quiz(request):
             public = Quiz.objects.filter(published=True)
         except:
             public = []
-        content = {"raiting": rating, 'public': public}
+        content = {"raiting": rating, 'quizz': public}
         return render(request, 'main/index.html', content)
     else:
         try:
@@ -53,12 +53,18 @@ def show_quiz(request):
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     taskss = Task.objects.filter(quizzes=pk)
-    user = ContribUsers.objects.get(user_id=request.user.id)
+    try:
+       user = ContribUsers.objects.get(user_id=request.user.id)
+    except:
+        redirect("Login")
     points_his = 0
     if request.method == "POST":
         data = request.POST.dict()
         print(data)
-        form = ContribUserForm(request.POST, instance=user)
+        try:
+           form = ContribUserForm(request.POST, instance=user)
+        except:
+           return redirect('Login')
         try:
             quizzz = History.objects.get(quiz_id=pk)
             form2 = HistoryForm(request.POST, instance=quizzz)
