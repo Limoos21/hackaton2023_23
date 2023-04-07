@@ -1,21 +1,57 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'reg/css/reg.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'reg/css/header.css' %}">
 </head>
+
 <body>
-<main>
 
-    <form  method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Авторизироваться">
-    </form>
+    <header class="header">
+        <div>
+            <img src="{% static 'reg/img/location.png' %}" alt="" class="nav-icon">
+        </div>
+        <div>
+            <img src="{% static 'reg/img/logo.png' %}" alt="" class="logo-icon">
+        </div>
+        <!-- <div>
+            <a href="{% url 'Profile' %}" class="user-icon-link">
+                <img src="{% static 'reg/img/user.png' %}" alt="" class="user-icon">
+            </a>
+        </div> -->
 
-</main>
+    </header>
 
-<button class=""><a href="{% url 'Registr' %}">Вернутся в регистрацию бесплатно, и без смс</a></button>
+    <main class="main">
+
+        <form method="post" class="login-form">
+            <h1 class="reg-title">Авторизация</h1>
+            {% csrf_token %}
+            <label for="">Имя пользователя</label>
+            {{ form.username }}
+            <label for="">Пароль</label>
+            {{ form.password }}
+            <input type="submit" value="Войти" class="btn-create ">
+            <a class="btn-create" href="{% url 'Registr' %}">Регистрация</a>
+        </form>
+
+
+
+    </main>
+    <div class="content">
+        <div class="man-icon">
+            <img src="{% static 'main/imgs/man.png' %}" alt="">
+        </div>
+        <div class="glob-icon">
+            <img src="{% static 'main/imgs/glob.png' %}" alt="">
+        </div>
+    </div>
 
 </body>
+
 </html>

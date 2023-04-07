@@ -1,0 +1,118 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    font-family: "Furore", sans-serif;
+    background: rgb(99, 126, 223);
+    background: linear-gradient(101deg, rgb(99, 126, 223) 0%, rgb(200, 170, 224) 46%, rgb(178, 118, 242) 80%, rgb(12, 14, 115) 100%, rgb(16, 18, 117) 100%);
+}
+
+.main {
+
+    text-align: center;
+    justify-content: center;
+    display: flex;
+
+    margin-bottom: -190px;
+}
+
+.name-quiz {
+    margin-top: 10px;
+    padding: .7rem .9rem;
+    margin-bottom: 25px;
+    width: 400px;
+    border-radius: 20px;
+    outline: none;
+    border: 0;
+    font-size: 18px;
+}
+
+.login-form {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-create {
+    padding: 0.5rem 0.9rem;
+    margin-bottom: 25px;
+    width: 400px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    background: #525252;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 26px;
+    font-family: "Furore", sans-serif;
+    text-decoration: none;
+
+}
+
+
+/* .man {
+    width: 600px;
+    height: 400px;
+    margin-top: 70px;
+    /* background: url("../img/man.png") center no-repeat;
+    background-size: contain; 
+} */
+
+
+
+
+
+.man-icon {
+
+    height: 400px;
+    margin-top: 10px;
+
+}
+
+.man-icon img {
+    width: 330px;
+}
+
+.glob-icon {
+    margin-top: 40px;
+    width: 500px;
+    height: 400px;
+
+}
+
+.glob-icon img {
+    width: 600px;
+}
+
+.content {
+    margin-top: -120px;
+    padding: 0;
+}
+
+.reg-title {
+    margin-bottom: 10px;
+}

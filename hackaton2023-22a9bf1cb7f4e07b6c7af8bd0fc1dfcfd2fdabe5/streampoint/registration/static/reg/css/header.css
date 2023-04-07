@@ -1,0 +1,64 @@
+.nav-icon {
+    width: 100px;
+    height: 100px;
+
+}
+
+.logo-icon {
+    width: 500px;
+    height: 100px;
+    display: block;
+
+}
+
+.header {
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.task-header {
+    margin-top: 20px;
+}
+
+.man-icon {
+    width: 330px;
+    height: 400px;
+    position: absolute;
+    top: 14px;
+    left: 100px;
+
+}
+
+
+.content {
+    position: relative;
+    padding: 0;
+    margin: 210px 0;
+}
+
+.glob-icon {
+    position: absolute;
+    right: 100px;
+    top: 112px;
+    width: 550px;
+    height: 300px;
+}
+
+.user-icon-link {
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+
+.user-icon {
+    width: 120px;
+    height: 110px;
+}
+
+.addquiz-header {
+    margin-top: 20px;
+    margin-bottom: -200px;  
+}

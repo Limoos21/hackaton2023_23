@@ -473,3 +473,9 @@ li::marker {
   display: flex;
   justify-content: start;
 }
+
+.exit {
+  position: absolute;
+  bottom: -50px;
+  left: -300px;
+}

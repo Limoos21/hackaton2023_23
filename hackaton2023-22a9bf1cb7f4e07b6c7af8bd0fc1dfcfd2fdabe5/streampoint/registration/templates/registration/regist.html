@@ -1,19 +1,58 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'reg/css/register.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'reg/css/header.css' %}">
 </head>
-<body>
-<h1>Registration</h1>
 
-<main>
-     <form  method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Зарегистрироваться">
-    </form>
-</main>
-<button class=""><a href="{% url 'Login' %}">Вернутся в логин бесплатно, и без смс</a></button>
+<body>
+
+
+    <header class="header">
+        <div>
+            <img src="{% static 'reg/img/location.png' %}" alt="" class="nav-icon">
+        </div>
+        <div>
+            <img src="{% static 'reg/img/logo.png' %}" alt="" class="logo-icon">
+        </div>
+        <!-- <div>
+        <a href="{% url 'Profile' %}" class="user-icon-link">
+            <img src="{% static 'reg/img/user.png' %}" alt="" class="user-icon">
+        </a>
+    </div> -->
+
+    </header>
+
+    <main class="main">
+      
+        <form method="post" class="login-form">
+            <h1 class="reg-title">Регистрация</h1>
+            {% csrf_token %}
+            <label for="">Имя пользователя</label>
+            {{ form.username }}
+            <label for="">Пароль</label>
+            {{ form.password1 }}
+            <label for="">Повторите пароль</label>
+            {{ form.password2 }}
+            <input type="submit" value="Зарегистрироваться" class="btn-create">
+            <a href="{% url 'Login' %}" class="btn-create">Логин</a>
+        </form>
+    </main>
+
+    <div class="content">
+        <div class="man-icon">
+            <img src="{% static 'main/imgs/man.png' %}" alt="">
+        </div>
+        <div class="glob-icon">
+            <img src="{% static 'main/imgs/glob.png' %}" alt="">
+        </div>
+    </div>
+
 </body>
+
 </html>
