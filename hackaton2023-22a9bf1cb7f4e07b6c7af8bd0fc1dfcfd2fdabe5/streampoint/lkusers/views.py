@@ -148,7 +148,7 @@ def AddTaskall(request):
 def show_profile(request):
     user_id = request.user.id
     if not request.user.is_authenticated:
-        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+        return redirect('Login')
     elif request.user.is_superuser:
         name = ContribUsers.objects.get(id=user_id)
         try:
