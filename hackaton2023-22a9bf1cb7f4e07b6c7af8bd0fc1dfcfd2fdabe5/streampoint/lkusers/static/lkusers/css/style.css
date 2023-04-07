@@ -29,21 +29,26 @@ dd {
   padding: 0;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   font-family: "Furore", sans-serif;
   background: rgb(99, 126, 223);
   background: linear-gradient(101deg, rgb(99, 126, 223) 0%, rgb(200, 170, 224) 46%, rgb(178, 118, 242) 80%, rgb(12, 14, 115) 100%, rgb(16, 18, 117) 100%);
 }
 
 .main {
-  
+
   text-align: center;
   justify-content: center;
   display: flex;
 
 }
+
 .quiz-main {
   margin-top: 200px;
 }
@@ -51,6 +56,7 @@ body {
 .profile-user-main {
   margin-top: 90px;
 }
+
 .addtask-main {
   margin-top: 0;
 }
@@ -116,10 +122,11 @@ body {
   width: 100%;
   margin-top: 100px;
   /* margin-right: 100px; */
-  transform: scale(-1,1);
+  transform: scale(-1, 1);
   width: 600px;
   height: 400px;
 }
+
 .man-myvics img {
   position: absolute;
   top: 280px;
@@ -142,34 +149,40 @@ body {
   background-size: contain;
   background-position: bottom;
 }
+
 .glob .mark {
   width: 50px;
   height: 50px;
   position: absolute;
   cursor: pointer;
 }
+
 .glob .mark :hover {
   transition: opacity 0.2 linear;
   background: #000;
 }
+
 .glob .mark-1 {
   right: 215px;
   top: 33%;
   background: url("../img/france.png") center no-repeat;
   background-size: contain;
 }
+
 .glob .mark-2 {
   top: 59%;
   left: 38px;
   background: url("../img/freedom.png") center no-repeat;
   background-size: contain;
 }
+
 .glob .mark-3 {
   top: 60%;
   right: 170px;
   background: url("../img/mosc.png") center no-repeat;
   background-size: contain;
 }
+
 .glob .mark-4 {
   top: 66%;
   right: 30px;
@@ -189,6 +202,7 @@ body {
   align-items: center;
   padding: 0.2rem;
 }
+
 .reg input {
   width: 350px;
   padding: 0.4rem;
@@ -197,6 +211,7 @@ body {
   border: 0;
   outline: none;
 }
+
 .reg label {
   margin-bottom: 8px;
 }
@@ -210,7 +225,7 @@ body {
 
 .user-stat {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
 
   width: 500px;
@@ -239,6 +254,7 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+
 .points-inner h2 {
   font-size: 19px;
 }
@@ -293,6 +309,7 @@ body {
   width: 530px;
   padding: 0.4em .3rem;
 }
+
 .vics-title h1 {
   color: #fff;
   font-size: 24px;
@@ -312,6 +329,7 @@ body {
   font-size: 25px;
   color: #fff;
 }
+
 .quiz-points {
   margin-top: 10px;
 }
@@ -367,9 +385,10 @@ li::marker {
   position: relative;
 }
 
-.vic-title-margin{
-   margin-bottom: 10px;
+.vic-title-margin {
+  margin-bottom: 10px;
 }
+
 .v {
 
   display: flex;
@@ -429,10 +448,11 @@ li::marker {
 
 .quiz-photo {
   margin-top: 15px;
-  
+
 }
+
 .quiz-que {
-  color: rgb(77, 71, 71) ;
+  color: rgb(77, 71, 71);
   margin-top: 10px;
 }
 
