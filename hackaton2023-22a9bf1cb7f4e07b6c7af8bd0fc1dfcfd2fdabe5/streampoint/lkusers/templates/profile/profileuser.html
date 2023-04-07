@@ -42,6 +42,7 @@
             <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
         </div>
         <div>
+            <a href="{% url 'quiz' %}" class="user-icon-link">
             <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
         </div>
         <div>
@@ -94,7 +95,7 @@
                             <div class="img-and-item">
                                 <a class="vic-title" href="{% url 'quiztask' pk=k.quiz.id %}">Викторина -
                                     {{k.quiz.name_quiz}}</a>
-                                <img src="{% static 'lkusers/imgs/Screenshot_1.png' %}" alt="" class="vic-item-img">
+                                <img src="{{ k.quiz.photo_quiz.url}}" class="vic-item-img">
                             </div>
                             <div class="quiz-points">Баллы: {{k.points}}:</div>
 

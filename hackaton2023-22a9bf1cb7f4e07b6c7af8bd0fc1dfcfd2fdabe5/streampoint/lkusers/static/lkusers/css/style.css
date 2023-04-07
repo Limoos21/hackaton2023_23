@@ -30,7 +30,7 @@ dd {
 }
 
 html {
-  height: 100%;
+  height: 130%;
 }
 
 body {
@@ -478,7 +478,7 @@ li::marker {
   width: 70px;
   height: 70px;
   display: block;
-  border: 1px solid #000;
+  /*border: 1px solid #000;*/
   border-radius: 50px;
   object-fit: cover;
 }
