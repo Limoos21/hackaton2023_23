@@ -499,3 +499,7 @@ li::marker {
   bottom: -50px;
   left: -300px;
 }
+
+.btn-exit-admin {
+  margin-left: 750px;
+}

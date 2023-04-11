@@ -101,8 +101,13 @@
                 </div>
             </div>
         </div>
+     
 
     </main>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-create btn-update btn-exit-admin">Выход</button>
+    </form>
 </body>
 
 </html>
