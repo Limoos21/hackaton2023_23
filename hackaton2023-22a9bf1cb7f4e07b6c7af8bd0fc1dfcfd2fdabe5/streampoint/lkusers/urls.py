@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import show_profile, AddTaskall, addAddobjectsForms, QuizCreateView, quiz_edit, myvics,users_vics
-from django.contrib.auth.views import LogoutView
+from .views import show_profile, AddTaskall, addAddobjectsForms, QuizCreateView, quiz_edit, myvics, users_vics
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -11,6 +11,6 @@ urlpatterns = [
     path("add/edit/<int:pk>", quiz_edit, name="edit"),
     path('myquiz', myvics, name="myvics"),
     path('usersvics', users_vics, name="users_vics"),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout')
 ]
 
