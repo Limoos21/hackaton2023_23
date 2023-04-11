@@ -41,10 +41,10 @@
         <div>
             <img src="{% static 'main/imgs/location.png' %}" alt="" class="nav-icon">
         </div>
-        <div>
-            <a href="{% url 'quiz' %}" class="user-icon-link">
+        <a href="{% url 'quiz' %}" class="main-link">
+            <!-- <a > -->
             <img src="{% static 'main/imgs/logo.png' %}" alt="" class="logo-icon">
-        </div>
+        </a>
         <div>
             <a href="{% url 'Profile' %}" class="user-icon-link">
                 <img src="{% static 'main/imgs/user.png' %}" alt="" class="user-icon">
@@ -104,12 +104,12 @@
                     {% endfor %}
 
                 </div>
-   
+
             </div>
-             <form method="post" action="{% url 'logout' %}" class="btn-create btn-update">
+            <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit">Выход</button>
-             </form>
+                <button type="submit" class="btn-create btn-update">Выход</button>
+            </form>
 
         </div>
 
